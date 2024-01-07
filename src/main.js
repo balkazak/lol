@@ -14,6 +14,7 @@ import VueAxios from 'vue-axios'
 Vue.config.productionTip = false;
 // axios
 Vue.use(VueAxios, axios);
+Vue.use(require('vue-moment'));
 // sweet alert config
 const options = {
     confirmButtonColor: "#3085d6",

@@ -1,20 +1,80 @@
 <template>
-  <div id="app" class="card-overlay">
-    <v-app>
-      <div
-        :class="{
+  <div>
+    <v-app-bar
+        darken
+        elevate-on-scroll
+        absolute
+        class="header"
+    >
+      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+
+      <v-toolbar-title>177 Cargo</v-toolbar-title>
+    </v-app-bar>
+
+    <v-navigation-drawer
+        v-model="drawer"
+        absolute
+        temporary
+    >
+      <v-list
+          nav
+          dense
+      >
+        <v-list-item-group
+            v-model="group"
+            active-class="deep-purple--text text--accent-4"
+        >
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>mdi-home</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Главная</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item>
+            <v-list-item-icon >
+              <v-icon>mdi-account</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Мои товары</v-list-item-title>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
+    <div id="app" class="card-overlay">
+      <v-app>
+        <div
+            :class="{
           'sm-main-style': $vuetify.breakpoint.smAndDown,
           'md-main-style': $vuetify.breakpoint.mdAndUp,
         }"
-      >
-        <router-view />
-      </div>
-    </v-app>
+        >
+          <router-view />
+        </div>
+      </v-app>
+    </div>
   </div>
 </template>
 
+<script>
+export default {
+  data: () => ({
+    drawer: false,
+    group: null,
+  }),
+}
+</script>
+
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800;900&display=swap");
+
+.theme--light.v-app-bar.v-toolbar.v-sheet {
+  background-color: #1976d2 !important;
+  color: white;
+}
+
+.v-btn--fab.v-size--default .v-icon, .v-btn--fab.v-size--small .v-icon, .v-btn--icon.v-size--default .v-icon, .v-btn--icon.v-size--small .v-icon {
+  color: white!important;
+}
 
 #app {
   font-family: Raleway, Helvetica, Arial, sans-serif;
