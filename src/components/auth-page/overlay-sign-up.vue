@@ -1,18 +1,6 @@
 <template>
   <div class="overlay-panel overlay-left">
-    <v-btn
-      color="info"
-      dark
-      rounded
-       :class="{
-        'pa-4 my-10 font-weight-bold': $vuetify.breakpoint.smAndDown,
-        'pa-6 my-10 font-weight-bold': $vuetify.breakpoint.mdAndUp,
-      }"
-      elevation="0"
-      @click="isSignInPanelActive = false"
-    >
-      Войти
-    </v-btn>
+
   </div>
 </template>
 

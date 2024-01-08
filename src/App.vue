@@ -16,6 +16,7 @@
         absolute
         temporary
     >
+      <img src="@/assets/logo.jpeg" alt="" width="200">
       <v-list
           nav
           dense
@@ -66,6 +67,15 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800;900&display=swap");
+
+.v-navigation-drawer__content {
+  padding: 25px;
+}
+
+
+.v-list--dense .v-list-item .v-list-item__icon, .v-list-item--dense .v-list-item__icon {
+  margin-right: 10px;
+}
 
 .theme--light.v-app-bar.v-toolbar.v-sheet {
   background-color: #1976d2 !important;

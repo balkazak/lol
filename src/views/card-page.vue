@@ -1,6 +1,6 @@
 <template>
    <div class="card-page">
-     <v-row class="justify-space-between mb-16">
+     <v-row class="justify-center justify-md-space-between mb-16">
        <h2>Мои товары</h2>
        <v-dialog
            v-model="dialog"
@@ -13,7 +13,7 @@
                v-on="on"
                tile
                color="blue "
-               class="btn"
+               class="btn mt-5 mt-md-0"
            >
              <v-icon left>
                mdi-pencil
@@ -48,7 +48,7 @@
              <v-btn
                  color="blue darken-1"
                  text
-                 @click="dialog = false"
+                 @click="closeModal"
              >
                Закрыть
              </v-btn>
@@ -134,7 +134,7 @@
                    :icon="card.recClient ? 'mdi-check' : ''"
                >
                  <div class="mb-4">
-                   <div>Получено клиентом</div>
+                   <div class="text">Получено клиентом</div>
                    <div class="font-weight-normal">
                      <strong>{{ card.recClient || 'Нет данных' | moment("DD/MM/YYYY HH:MM:SS")}}</strong>
                    </div>
@@ -199,6 +199,11 @@ export default {
     }
   },
   methods: {
+    closeModal() {
+      this.dialog = false;
+      this.trackNumber = '';
+      this.description = '';
+    },
     addOrder() {
       this.$store.commit('orderPageModule/setOrder', {
         title: this.trackNumber,
@@ -231,5 +236,13 @@ export default {
   }
   .btn {
     color: white!important;
+  }
+  @media (max-width: 800px) {
+    .card-page {
+      padding: 100px 50px;
+    }
+    .text {
+      font-size: 10px;
+    }
   }
 </style>

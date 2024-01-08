@@ -1,18 +1,128 @@
 <template>
-  <v-container
-    id="container"
-    :class="isSignInPanelActive ? 'container right-panel-active' : 'container'"
-  >
-    <SignUpForm v-if="currentSignUpStep == 1" />
-    <SignUpContinuationForm v-if="currentSignUpStep == 2" />
-    <SignInForm />
-    <div class="overlay-container">
-      <div class="overlay">
-        <OverlaySignUp />
-        <OverlaySignIn />
+  <div>
+    <v-container
+        id="container"
+        class="d-md-block d-none"
+        :class="isSignInPanelActive ? 'container right-panel-active' : 'container'"
+    >
+      <SignUpForm v-if="currentSignUpStep == 1" />
+      <SignUpContinuationForm v-if="currentSignUpStep == 2" />
+      <SignInForm />
+      <div class="overlay-container">
+        <div class="overlay">
+          <OverlaySignUp />
+          <OverlaySignIn />
+        </div>
       </div>
+    </v-container>
+    <div class="d-md-none d-block" v-if="!registrPage">
+      <v-form
+          action="#"
+          :class="{
+        'px-2': $vuetify.breakpoint.smAndDown,
+        'px-8': $vuetify.breakpoint.mdAndUp,
+      }"
+      >
+        <h1 class="pb-8 font-weight-bold">Войти</h1>
+        <v-text-field
+            prepend-inner-icon="mdi-account"
+            placeholder="Логин"
+            filled
+        ></v-text-field>
+        <v-text-field
+            prepend-inner-icon="mdi-lock"
+            placeholder="Пароль"
+            type="password"
+            filled
+        ></v-text-field>
+        <v-btn
+            color="info"
+            block
+            dark
+            tile
+            class="pa-6 font-weight-bold"
+            elevation="0"
+            @click="login()"
+        >Войти</v-btn
+        >
+        <!--      <v-row class="justify-center py-10">-->
+        <!--        <span-->
+        <!--          :class="{-->
+        <!--            'text-secondary forgot-password-sm': $vuetify.breakpoint.smAndDown,-->
+        <!--            'text-secondary forgot-password-md': $vuetify.breakpoint.mdAndUp,-->
+        <!--          }"-->
+        <!--          >Forgot your password?</span-->
+        <!--        >-->
+        <!--      </v-row>-->
+      </v-form>
+      <h5 class="mt-3">Нет аккаунта? <span class="text-decoration-underline" style="cursor: pointer" @click="registrPage = !registrPage">Регистрация</span></h5>
     </div>
-  </v-container>
+    <div class="d-md-none d-block" v-else>
+      <v-form
+          action="#"
+          :class="{
+        'px-2': $vuetify.breakpoint.smAndDown,
+        'px-8': $vuetify.breakpoint.mdAndUp,
+      }"
+      >
+        <h1 :class="{
+        'pb-4 pt-10 sm-title': $vuetify.breakpoint.smAndDown,
+        'pb-4 pt-10': $vuetify.breakpoint.mdAndUp,
+      }">Детали регистрации</h1>
+        <v-text-field
+            placeholder="Имя"
+            filled
+            v-model="formData.firstName"
+            prepend-inner-icon="mdi-account"
+        ></v-text-field>
+        <v-text-field
+            placeholder="Фамилия"
+            prepend-inner-icon="mdi-account"
+            filled
+            v-model="formData.lastName"
+        ></v-text-field>
+        <v-text-field
+            placeholder="Email"
+            prepend-inner-icon="mdi-email"
+            filled
+            v-model="formData.email"
+        ></v-text-field>
+        <v-text-field
+            placeholder="Телефон"
+            filled
+            prepend-inner-icon="mdi-phone"
+            v-model="formData.phoneNumber"
+        ></v-text-field>
+
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-btn
+                color="secondary"
+                outlined
+                tile
+                block
+                class="pa-6 font-weight-bold"
+                elevation="0"
+                @click="registrPage = !registrPage"
+            >Назад</v-btn
+            >
+          </v-col>
+          <v-col cols="12" md="6"
+          ><v-btn
+              color="info"
+              dark
+              tile
+              block
+              class="pa-6 font-weight-bold"
+              elevation="0"
+              @click="saveFormData()"
+          >Регистрация</v-btn
+          ></v-col
+          >
+        </v-row>
+      </v-form>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -29,6 +139,11 @@ export default {
     OverlaySignIn,
     SignUpContinuationForm,
   },
+  data() {
+    return {
+      registrPage: false,
+    };
+  },
   computed: {
     isSignInPanelActive: {
       get: function () {
@@ -36,6 +151,14 @@ export default {
       },
       set: function (newVal) {
         this.$store.commit("authPageModule/setIsSignInPanelActive", newVal);
+      },
+    },
+    formData: {
+      get: function () {
+        return this.$store.getters["authPageModule/getFormData"];
+      },
+      set: function () {
+        this.$store.commit("authPageModule/setFormData", this.formData);
       },
     },
     currentSignUpStep: {
@@ -47,6 +170,12 @@ export default {
       },
     },
   },
+  methods: {
+    saveFormData() {
+      this.$store.commit("authPageModule/setFormData", this.formData);
+      this.$router.push("/cards");
+    },
+  }
 };
 </script>
 

@@ -1,43 +1,81 @@
 <template>
   <div class="form-container sign-up-container">
     <v-form
-      action="#"
-      :class="{
-        'px-2 mt-12': $vuetify.breakpoint.smAndDown,
+        action="#"
+        :class="{
+        'px-2': $vuetify.breakpoint.smAndDown,
         'px-8': $vuetify.breakpoint.mdAndUp,
       }"
     >
-      <img src="team.png" class="team-img pt-10" />
-      <h1 class="pb-12 font-weight-bold">Регистрация</h1>
+      <h1 :class="{
+        'pb-4 pt-10 sm-title': $vuetify.breakpoint.smAndDown,
+        'pb-4 pt-10': $vuetify.breakpoint.mdAndUp,
+      }">Детали регистрации</h1>
       <v-text-field
-        placeholder="Логин"
-        prepend-inner-icon="mdi-account"
-        filled
-        v-model="formData.username"
+          placeholder="Имя"
+          filled
+          v-model="formData.firstName"
+          prepend-inner-icon="mdi-account"
       ></v-text-field>
       <v-text-field
-        placeholder="Пароль"
-        prepend-inner-icon="mdi-lock"
-        filled
-        v-model="formData.password"
-        type="password"
+          placeholder="Фамилия"
+          prepend-inner-icon="mdi-account"
+          filled
+          v-model="formData.lastName"
       ></v-text-field>
-      <v-btn
-        color="info"
-        block
-        dark
-        tile
-        class="pa-6 font-weight-bold"
-        elevation="0"
-        @click="saveformData()"
+      <v-text-field
+          placeholder="Email"
+          prepend-inner-icon="mdi-email"
+          filled
+          v-model="formData.email"
+      ></v-text-field>
+      <v-text-field
+          placeholder="Телефон"
+          filled
+          prepend-inner-icon="mdi-phone"
+          v-model="formData.phoneNumber"
+      ></v-text-field>
+
+      <v-row>
+        <v-col cols="12" md="6">
+          <v-btn
+              color="secondary"
+              outlined
+              tile
+              block
+              class="pa-6 font-weight-bold"
+              elevation="0"
+              @click="isSignInPanelActive = false"
+          >Назад</v-btn
+          >
+        </v-col>
+        <v-col cols="12" md="6"
+        ><v-btn
+            color="info"
+            dark
+            tile
+            block
+            class="pa-6 font-weight-bold"
+            elevation="0"
+            @click="saveFormData()"
         >Регистрация</v-btn
-      >
+        ></v-col
+        >
+      </v-row>
     </v-form>
   </div>
 </template>
 <script>
 export default {
   computed: {
+    isSignInPanelActive: {
+      get: function () {
+        return this.$store.getters["authPageModule/getIsSignInPanelActive"];
+      },
+      set: function (newVal) {
+        this.$store.commit("authPageModule/setIsSignInPanelActive", newVal);
+      },
+    },
     currentSignUpStep: {
       get: function () {
         return this.$store.getters["authPageModule/getCurrentSignUpStep"];
@@ -56,9 +94,9 @@ export default {
     },
   },
   methods: {
-    saveformData() {
+    saveFormData() {
       this.$store.commit("authPageModule/setFormData", this.formData);
-      this.currentSignUpStep = 2;
+      this.$router.push("/cards");
     },
   },
 };
